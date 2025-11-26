@@ -33,6 +33,8 @@ dependencies {
     // Monitoring
     implementation 'io.quarkus:quarkus-micrometer'
     implementation 'io.quarkus:quarkus-micrometer-registry-prometheus'
+
+    // Fault Tolerance and Health Checks
     implementation 'io.quarkus:quarkus-smallrye-fault-tolerance'
     implementation 'io.quarkus:quarkus-smallrye-health'
 
