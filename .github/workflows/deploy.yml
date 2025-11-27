@@ -48,11 +48,11 @@ jobs:
       # 6. Git 커밋 해시 추출 (짧은 버전)
       - name: Get Git commit hash
         id: vars
-        run: echo "GIT_COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: echo "GIT_COMMIT=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
 
       # 7. Jib를 통한 빌드 및 Docker Hub 푸시
       - name: Build and Push Docker Image with Jib
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           ./gradlew build \
             -Dquarkus.container-image.build=true \
