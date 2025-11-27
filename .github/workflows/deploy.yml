@@ -85,7 +85,7 @@ jobs:
           port: 22
           script: |
             set -e
-            export NOMAD_ADDR=http://${{ secrets.NOMAD_INTERNAL_ADDR }}
+            export NOMAD_ADDR=${{ secrets.NOMAD_INTERNAL_ADDR }}
             
             # 디버깅용: 실제 배포하려는 태그가 뭔지 찍어보기
             echo "Target Image Tag: ${{ steps.vars.outputs.GIT_COMMIT }}"
