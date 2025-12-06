@@ -3,13 +3,13 @@ package com.hts.auth.api;
 import com.hts.auth.domain.model.ServiceResult;
 import com.hts.auth.domain.service.AuthCommandService;
 import com.hts.auth.domain.service.AuthQueryService;
-import com.hts.generated.grpc.*;
+import com.hts.generated.grpc.client.*;
 import io.quarkus.grpc.GrpcService;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 
 @GrpcService
-public class AuthGrpcService implements AuthService {
+public class AuthClientGrpcService implements AuthClientService {
 
     @Inject AuthCommandService commandService;
     @Inject AuthQueryService queryService;
@@ -19,8 +19,7 @@ public class AuthGrpcService implements AuthService {
         return commandService.login(
                         request.getAccountId(),
                         request.getPassword(),
-                        request.getIpAddr(),
-                        request.getUserAgent()
+                        request.getIpAddr()
                 )
                 .map(this::toReply);
     }
@@ -35,12 +34,6 @@ public class AuthGrpcService implements AuthService {
                     return commandService.logout(request.getSessionId(), result.accountId())
                             .map(this::toLogoutReply);
                 });
-    }
-
-    @Override
-    public Uni<ValidateSessionReply> validateSession(ValidateSessionRequest request) {
-        return queryService.validateSession(request.getSessionId())
-                .map(this::toValidateSessionReply);
     }
 
     private LoginReply toReply(ServiceResult result) {
@@ -60,14 +53,6 @@ public class AuthGrpcService implements AuthService {
     private LogoutReply toLogoutReply(AuthResult code) {
         return LogoutReply.newBuilder()
                 .setCode(code)
-                .build();
-    }
-
-    private ValidateSessionReply toValidateSessionReply(ServiceResult result) {
-        return ValidateSessionReply.newBuilder()
-                .setCode(result.code())
-                .setAccountId(result.accountId())
-                .setIsValid(result.isSuccess())
                 .build();
     }
 }

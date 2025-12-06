@@ -1,6 +1,6 @@
 package com.hts.auth.domain.model;
 
-import com.hts.generated.grpc.AuthResult;
+import com.hts.generated.grpc.client.*;
 
 public record ServiceResult(AuthResult code, String sessionId, long accountId) {
     public static ServiceResult of(AuthResult code) {

@@ -2,7 +2,7 @@ package com.hts.auth.domain.service;
 
 import com.hts.auth.domain.model.ServiceResult;
 import com.hts.auth.infrastructre.repository.RedisAuthRepository;
-import com.hts.generated.grpc.AuthResult;
+import com.hts.generated.grpc.client.*;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

@@ -26,7 +26,6 @@ public class AuthReadRepository {
             Record record = dsl.select(
                             field("account_id", Long.class),
                             field("password_hash", String.class),
-                            field("salt", String.class),
                             field("status", String.class),
                             field("failed_attempts", Integer.class),
                             field("locked_until", Timestamp.class)
@@ -49,7 +48,6 @@ public class AuthReadRepository {
                     true,
                     record.get(field("account_id", Long.class)),
                     record.get(field("password_hash", String.class)),
-                    record.get(field("salt", String.class)),
                     record.get(field("status", String.class)),
                     record.get(field("failed_attempts", Integer.class)),
                     lockedUntil

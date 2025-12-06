@@ -104,7 +104,7 @@ public class AuthWriteRepository {
         }
     }
 
-    public void recordLoginHistoryAsync(long accountId, String status, String ip, String userAgent, String reason) {
+    public void recordLoginHistoryAsync(long accountId, String status, String ip, String reason) {
         asyncExecutor.submit(() -> {
             long start = System.nanoTime();
             try {
@@ -112,7 +112,6 @@ public class AuthWriteRepository {
                         .set(field("account_id"), accountId)
                         .set(field("status"), status)
                         .set(field("ip_addr"), field("?::inet", String.class, ip))
-                        .set(field("user_agent"), userAgent)
                         .set(field("fail_reason"), reason)
                         .execute();
 

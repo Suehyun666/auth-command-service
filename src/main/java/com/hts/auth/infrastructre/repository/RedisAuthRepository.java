@@ -1,11 +1,13 @@
 package com.hts.auth.infrastructre.repository;
 
 import com.hts.auth.infrastructre.metrics.RedisMetrics;
+import com.hts.auth.infrastructre.redis.ResilientRedisClient;
 import io.quarkus.redis.datasource.ReactiveRedisDataSource;
 import io.smallrye.mutiny.Uni;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
 import java.io.BufferedReader;
@@ -23,6 +25,10 @@ public class RedisAuthRepository {
 
     @Inject ReactiveRedisDataSource redis;
     @Inject RedisMetrics metrics;
+    @Inject ResilientRedisClient resilientRedis;
+
+    @ConfigProperty(name = "redis.failover.enabled", defaultValue = "false")
+    boolean failoverEnabled;
 
     private String saveScript;
     private String getScript;
@@ -70,7 +76,9 @@ public class RedisAuthRepository {
         long start = System.nanoTime();
         String sessionKey = PREFIX + sessionId;
 
-        return redis.execute("EVAL", getScript, "1", sessionKey, "1800")
+        return (failoverEnabled
+                ? resilientRedis.executeWithRetry("EVAL", getScript, "1", sessionKey, "1800")
+                : redis.execute("EVAL", getScript, "1", sessionKey, "1800"))
                 .map(result -> {
                     metrics.recordGet(System.nanoTime() - start);
                     if (result == null) {

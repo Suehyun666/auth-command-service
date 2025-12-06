@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_IMAGE: suehunpark/auth-service
+  DOCKER_IMAGE: suehunpark/auth-command-service
 
 jobs:
   build-and-push:
@@ -78,7 +78,7 @@ jobs:
             # 여기서 image_tag를 auth.nomad에 넘긴다
             nomad job run \
               -var="image_tag=${{ env.IMAGE_TAG }}" \
-              /opt/nomad-jobs/app/auth-grpc.nomad
+              /opt/nomad-jobs/app/auth-command-grpc.nomad
 
             nomad job status auth
             echo "✅ Deployment triggered."

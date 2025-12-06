@@ -1,7 +1,6 @@
 CREATE TABLE accounts (
     account_id      BIGINT PRIMARY KEY,
     password_hash   TEXT NOT NULL,
-    salt            TEXT NOT NULL,
     status          TEXT NOT NULL DEFAULT 'ACTIVE',
     failed_attempts INT NOT NULL DEFAULT 0,
     locked_until    TIMESTAMPTZ,
@@ -21,7 +20,6 @@ CREATE TABLE login_history (
     account_id  BIGINT NOT NULL,
     status      TEXT NOT NULL,
     ip_addr     INET,
-    user_agent  TEXT,
     fail_reason TEXT,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -37,7 +35,6 @@ CREATE INDEX idx_login_history_created ON login_history(created_at DESC);
 --     session_id  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 --     account_id  BIGINT NOT NULL,
 --     ip_addr     INET,
---     user_agent  TEXT,
 --     created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
 --     expired_at  TIMESTAMPTZ,
 --     logout_type TEXT

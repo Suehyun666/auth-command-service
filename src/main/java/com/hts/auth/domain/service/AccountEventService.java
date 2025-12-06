@@ -47,19 +47,4 @@ public class AccountEventService {
             LOG.errorf(e, "Exception while deleting account for account_id=%d", accountId);
         });
     }
-
-    public Uni<Void> updateAccountStatus(long accountId, String status) {
-        long start = System.nanoTime();
-
-        return Uni.createFrom().item(() -> {
-            writeRepo.updateAccountStatus(accountId, status);
-            dbMetrics.record("update_account_status", "SUCCESS", System.nanoTime() - start);
-            LOG.infof("Updated account status for account_id=%d to %s", accountId, status);
-            return null;
-        })
-        .onFailure().invoke(e -> {
-            dbMetrics.record("update_account_status", "FAILURE", System.nanoTime() - start);
-            LOG.errorf(e, "Exception while updating account status for account_id=%d", accountId);
-        }).replaceWithVoid();
-    }
 }

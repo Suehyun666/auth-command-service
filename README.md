@@ -1,4 +1,4 @@
-# auth-service
+# auth-command-service
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
@@ -8,7 +8,7 @@ If you want to learn more about Quarkus, please visit its website: <https://quar
 
 You can run your application in dev mode that enables live coding using:
 
-```shell script
+```shell
 ./gradlew quarkusDev
 ```
 
@@ -18,7 +18,7 @@ You can run your application in dev mode that enables live coding using:
 
 The application can be packaged using:
 
-```shell script
+```shell
 ./gradlew build
 ```
 
@@ -29,7 +29,7 @@ The application is now runnable using `java -jar build/quarkus-app/quarkus-run.j
 
 If you want to build an _über-jar_, execute the following command:
 
-```shell script
+```shell
 ./gradlew build -Dquarkus.package.jar.type=uber-jar
 ```
 
@@ -39,13 +39,13 @@ The application, packaged as an _über-jar_, is now runnable using `java -jar bu
 
 You can create a native executable using:
 
-```shell script
+```shell
 ./gradlew build -Dquarkus.native.enabled=true
 ```
 
 Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
 
-```shell script
+```shell
 ./gradlew build -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
 ```
 
