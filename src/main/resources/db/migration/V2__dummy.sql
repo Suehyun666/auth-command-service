@@ -1,0 +1,10 @@
+INSERT INTO accounts (account_id, password_hash, status, failed_attempts, created_at, updated_at)
+SELECT
+    i,                                                                -- account_id (1000 ~ 2001)
+    '12345678',                                                      -- salt (빈 문자열)
+    'ACTIVE',                                                         -- status
+    0,                                                                -- failed_attempts
+    now(),                                                            -- created_at
+    now()                                                             -- updated_at
+FROM generate_series(1, 3001) AS i
+    ON CONFLICT (account_id) DO NOTHING;
